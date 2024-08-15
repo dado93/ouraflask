@@ -1,8 +1,14 @@
 from flask import Flask
 import os
+import dotenv
+
+dotenv.load_dotenv(dotenv_path="../.env")
+
+from . import oura
 
 
 def create_app(test_config=None):
+    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
     # create and configure app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
@@ -20,6 +26,9 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    @app.route("/hello")
-    def hello():
-        return "Hello, World"
+    app.register_blueprint(oura.bp)
+    app.add_url_rule("/", endpoint="login")
+    # app.add_url_rule("/callback", endpoint="callback")
+    # app.add_url_rule("/profile", endpoint="profile")
+
+    return app
