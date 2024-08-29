@@ -1,3 +1,6 @@
 flask
 oauthlib
 pytest
+python-dotenv
+requests
+requests-oauthlib
