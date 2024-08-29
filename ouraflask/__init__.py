@@ -4,7 +4,7 @@ import dotenv
 
 dotenv.load_dotenv(dotenv_path="../.env")
 
-from . import oura
+from . import pages
 
 
 def create_app(test_config=None):
@@ -12,7 +12,7 @@ def create_app(test_config=None):
     # create and configure app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY="dev", DATABASE=os.path.join(app.instance_path, "flaskr.sqlite")
+        SECRET_KEY="dev", DATABASE=os.path.join(app.instance_path, "ouraflask.sqlite")
     )
 
     if test_config is None:
@@ -26,7 +26,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    app.register_blueprint(oura.bp)
+    app.register_blueprint(pages.bp)
     app.add_url_rule("/", endpoint="login")
     # app.add_url_rule("/callback", endpoint="callback")
     # app.add_url_rule("/profile", endpoint="profile")

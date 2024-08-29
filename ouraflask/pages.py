@@ -25,7 +25,10 @@ bp = Blueprint("auth", __name__, url_prefix="/auth")
 def oura_login():
     """Redirect to the OAuth provider login page."""
 
-    oura_session = OAuth2Session(os.environ.get("CLIENT_ID", None), scope="personal")
+    oura_session = OAuth2Session(
+        os.environ.get("CLIENT_ID", None),
+        scope=["personal", "daily", "heartrate", "workout", "tag", "session", "spo2"],
+    )
 
     # URL for Oura's authorization page.
     authorization_url, state = oura_session.authorization_url(
@@ -39,7 +42,7 @@ def oura_login():
 def profile():
     """User profile."""
     oauth_token = session["oauth"]["access_token"]
-    url = "https://api.ouraring.com/v2/usercollection/personal_info"
+    url = "https://api.ouraring.com/v2/usercollection/daily_sleep"
     params = {"start_date": "2024-01-01", "end_date": "2024-07-01"}
     headers = {"Authorization": f"Bearer {oauth_token}"}
     response = requests.request("GET", url, headers=headers, params=params)
