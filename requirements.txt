@@ -1,2 +1,5 @@
 flask
 oauthlib
+python-dotenv
+requests
+requests-oauthlib
